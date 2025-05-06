@@ -10,12 +10,14 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<any>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setDebugInfo(null);
 
     try {
       console.log("Attempting to sign in with:", username);
@@ -26,20 +28,37 @@ export default function LoginPage() {
       });
 
       console.log("Sign in result:", result);
+      
+      // Store debug info for troubleshooting
+      setDebugInfo(result);
 
-      if (result?.error) {
-        setError("Authentication failed. Please check your credentials and try again.");
+      if (!result) {
+        setError("No response from authentication server. Please try again.");
         setLoading(false);
         return;
       }
 
-      if (result?.ok) {
-        router.push("/dashboard");
+      if (result.error) {
+        setError(`Authentication failed: ${result.error}`);
+        setLoading(false);
         return;
+      }
+
+      if (result.ok) {
+        // Success - redirect to dashboard after a short delay
+        // The delay helps ensure the session is fully established
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 500);
+        return;
+      } else {
+        // This shouldn't happen, but just in case
+        setError("Authentication response was not successful. Please try again.");
       }
     } catch (error) {
       console.error("Login error:", error);
-      setError("An unexpected error occurred. Please try again later.");
+      setError(`An unexpected error occurred: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      setDebugInfo(error);
     }
 
     setLoading(false);
@@ -83,16 +102,17 @@ export default function LoginPage() {
             <div className="space-y-4">
               <div>
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                  Username or Email
+                  Email Address
                 </label>
                 <div className="mt-1">
                   <input
                     id="username"
                     name="username"
-                    type="text"
+                    type="email"
+                    autoComplete="email"
                     required
                     className="appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                    placeholder="Enter your username or email"
+                    placeholder="Enter your email address"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
@@ -139,6 +159,20 @@ export default function LoginPage() {
               </button>
             </div>
           </form>
+          
+          {/* Debug information section */}
+          {debugInfo && (
+            <div className="mt-8 border-t border-gray-300 pt-4">
+              <details className="text-sm">
+                <summary className="text-gray-800 font-medium cursor-pointer hover:text-blue-700 p-2 rounded-md hover:bg-gray-100 inline-block">
+                  Debug Information
+                </summary>
+                <div className="mt-3 p-4 bg-gray-100 rounded-lg border border-gray-300 text-xs text-gray-900 overflow-auto max-h-64 font-mono">
+                  <pre>{JSON.stringify(debugInfo, null, 2)}</pre>
+                </div>
+              </details>
+            </div>
+          )}
         </div>
       </div>
       
