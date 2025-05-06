@@ -12,15 +12,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/dash',
-        destination: `${DASH_URL}/dash`,
+        destination: `${DASH_URL}`,
       },
       {
         source: '/dash/:path*',
-        destination: `${DASH_URL}/dash/:path*`,
-      },
-      {
-        source: '/dash-static/:path*',
-        destination: `${DASH_URL}/dash-static/:path*`,
+        destination: `${DASH_URL}/:path*`,
       },
     ];
   },

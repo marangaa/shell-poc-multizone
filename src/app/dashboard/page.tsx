@@ -73,7 +73,7 @@ export default function Dashboard() {
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-300 flex flex-col">
               <p className="text-base text-gray-700 mb-4">Access the Dash app which shares authentication with this shell app.</p>
               <a 
-                href={`${dashUrl}/dash`}
+                href={`${dashUrl}`}
                 className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition-colors font-medium text-center inline-block max-w-xs"
               >
                 Go to Dash App
