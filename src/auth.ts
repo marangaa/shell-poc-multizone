@@ -11,6 +11,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.userId = user.id;
         token.email = user.email;
+        
       }
       return token;
     },
@@ -58,16 +59,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           // Check if the API response is successful
           if (response.ok && data && data.CODE === 1 && data.status === "SUCCESS") {
-            // Return a standardized user object with the correct API fields
+            // Return a standardized user object with the fields NextAuth expects
             return {
-              username: data.API_USERNAME,
-              API_PASSWORD: data.API_PASSWORD,
-              COUNTRY: data.COUNTRY,
-              CURRENCY: data.CURRENCY,
-              JOIN_CODE: data.JOIN_CODE, 
-              recipient_id: data.RECIPIENT_ID,
-              KEY_TIME: data.KEY_TIME,
-              ...data // Include all data from the response
+              id: data.API_USERNAME, // NextAuth requires an id field
+              email: credentials?.username as string, // NextAuth requires an email field
+              name: credentials?.username as string,
+              apiUsername: data.API_USERNAME,
+              apiPassword: data.API_PASSWORD,
+              country: data.COUNTRY,
+              currency: data.CURRENCY,
+              joinCode: data.JOIN_CODE, 
+              recipientId: data.RECIPIENT_ID,
+              keyTime: data.KEY_TIME
             };
           }
           
