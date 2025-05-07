@@ -5,11 +5,23 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/flow/:path*",
-        destination: process.env.NODE_ENV === 'development'
-          ? 'http://localhost:3001/:path*' // Local development
-          : 'https://flow-poc-multizone.vercel.app/:path*', // Production
+        destination: "https://flow-poc-multizone.vercel.app/:path*"
       },
+      {
+        // Add rewrite for flow app's static assets
+        source: "/flow-static/:path*",
+        destination: "https://flow-poc-multizone.vercel.app/flow-static/:path*"
+      }
     ];
+  },
+  serverActions: {
+    // Allow Server Actions from the flow app domain
+    allowedOrigins: [
+      // Development
+      "localhost:3001",
+      // Production
+      "flow-poc-multizone.vercel.app"
+    ],
   },
 };
 
