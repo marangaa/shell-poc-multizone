@@ -5,18 +5,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/flow/:path*",
-        destination: "https://flow-poc-multizone.vercel.app/flow/:path*"
+        destination: process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3001/:path*' // Local development
+          : 'https://flow-poc-multizone.vercel.app/:path*', // Production
       },
     ];
-  },
-  serverActions: {
-    // Allow Server Actions from the flow app domain
-    allowedOrigins: [
-      // Development
-      "localhost:3001",
-      // Production
-      "flow-poc-multizone.vercel.app"
-    ],
   },
 };
 
