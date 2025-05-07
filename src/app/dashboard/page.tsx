@@ -2,7 +2,6 @@
 
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import Link from "next/link";
 
 export default function Dashboard() {
   const { data: session, status } = useSession({
@@ -13,7 +12,7 @@ export default function Dashboard() {
   });
 
   // Get dashboard URL from environment variable or use fallback
-  const dashUrl = process.env.NEXT_PUBLIC_DASH_URL || 'https://dash-poc-multizone.vercel.app';
+  const flowAppUrl = process.env.NEXT_PUBLIC_FLOW_APP_URL || 'https://flow-poc-multizone.vercel.app/flow';
   
   if (status === "loading") {
     return (
@@ -67,16 +66,16 @@ export default function Dashboard() {
             </div>
           </section>
           
-          {/* Link to the Dash App - Using <a> tag instead of Link for cross-zone navigation */}
+          {/* Link to the Flow App - Using <a> tag instead of Link for cross-zone navigation */}
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Microfrontend Integration</h2>
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-300 flex flex-col">
-              <p className="text-base text-gray-700 mb-4">Access the Dash app which shares authentication with this shell app.</p>
+              <p className="text-base text-gray-700 mb-4">Access the Flow app which shares authentication with this shell app.</p>
               <a 
-                href={`${dashUrl}`}
+                href={`${flowAppUrl}`}
                 className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition-colors font-medium text-center inline-block max-w-xs"
               >
-                Go to Dash App
+                Go to Flow App
               </a>
             </div>
           </section>
