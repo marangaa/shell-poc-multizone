@@ -11,8 +11,9 @@ export default function Dashboard() {
     },
   });
 
-  // Get dashboard URL from environment variable or use fallback
-  const flowAppUrl = process.env.NEXT_PUBLIC_FLOW_APP_URL || 'https://flow-poc-multizone.vercel.app/flow';
+  // Update URL to use the shell domain with the /flow path
+  // This ensures users stay on the same domain which preserves cookies
+  const flowAppUrl = '/flow';
   
   if (status === "loading") {
     return (
