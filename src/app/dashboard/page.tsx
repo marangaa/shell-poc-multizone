@@ -72,12 +72,20 @@ export default function Dashboard() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Microfrontend Integration</h2>
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-300 flex flex-col">
               <p className="text-base text-gray-700 mb-4">Access the Flow app which shares authentication with this shell app.</p>
-              <a 
-                href={`${flowAppUrl}`}
-                className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition-colors font-medium text-center inline-block max-w-xs"
-              >
-                Go to Flow App
-              </a>
+              <div className="flex flex-wrap gap-3">
+                <a 
+                  href={`${flowAppUrl}`}
+                  className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition-colors font-medium text-center inline-block"
+                >
+                  Go to Flow App
+                </a>
+                <a 
+                  href="/architecture"
+                  className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors font-medium text-center inline-block"
+                >
+                  View Architecture
+                </a>
+              </div>
             </div>
           </section>
           
